@@ -1,0 +1,85 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: MVN PCS
+scopeName: source.mvn
+fileTypes: [asm]
+uuid: cafaadf5-a855-4b06-8867-78a387d1b659
+
+# 0.1.0
+
+patterns:
+- include: '#expression'
+
+repository:
+
+  expression:
+    name: invalid.illegal.mvn
+    patterns:
+    - include: '#parameter'
+    - include: '#label'
+    - include: '#operation'
+    - include: '#comment'
+    - include: '#delimiter'
+
+  labeled-instruction:
+    name: labeled.instruction.mvn
+    begin: ^\s*(?![><$K+\-*/]\s|JP\s|JZ\s|JN\s|LV\s|LD\s|MM\s|SC\s|RS\s|HM\s|GD\s|PD\s|OS\s)(\b[\w\-_]+\b)
+    beginCaptures:
+      '1': { name: entity.name.tag }
+    end: $
+    patterns:
+    - include: ''
+    - include: '#parameter'
+    - include: '#comment'
+
+  label:
+    name: entity.name.tag.mvn
+    match: ^\s*(?![><$K+\-*/]\s|JP\s|JZ\s|JN\s|LV\s|LD\s|MM\s|SC\s|RS\s|HM\s|GD\s|PD\s|OS\s)(\b[\w\-_]+\b)
+    # First word on line '(\b[\w\-_]\b)' that isn't an operation
+
+  operation:
+    name: entity.name.function.mvn
+    match: \s*([><$K+\-*/]|JP|JZ|JN|LV|LD|MM|SC|RS|HM|GD|PD|OS)(?=\s)
+
+  parameter:
+    name: parameter.mvn
+    patterns:
+    - include: '#invalid-parameter'
+    - include: '#parameter-value'
+    - include: '#parameter-label'
+
+  comment:
+    name: comment.mvn
+    match: (;).*$\n?
+
+  invalid-parameter:
+    name: invalid.illegal.mvn
+    patterns:
+    - include: '#invalid-parameter-value'
+    - include: '#invalid-parameter-label'
+    - include: '#invalid-parameter-number'
+
+  invalid-parameter-value:
+    name: invalid.illegal.mvn
+    match: '[^\s;]+(/[^\da-fA-F]+|/[\da-fA-F]{5,}|=[^\d]+|=\d{5,}|`\w{3,})\S*'
+
+  invalid-parameter-label:
+    name: invalid.illegal.mvn
+    match: (?<=\s)(?<=[><$K+\-*/]\s|JP\s|JZ\s|JN\s|LV\s|LD\s|MM\s|SC\s|RS\s|HM\s|GD\s|PD\s|OS\s)\s*([><$K+\-*/]|JP|JZ|JN|LV|LD|MM|SC|RS|HM|GD|PD|OS)(?=\s)
+
+  invalid-parameter-number:
+    name: invalid.illegal.mvn
+    match: (?<=\s)(?<=[><$K+\-*/]\s|JP\s|JZ\s|JN\s|LV\s|LD\s|MM\s|SC\s|RS\s|HM\s|GD\s|PD\s|OS\s)(?:(?:[ \t]*\b[\w-_]+\b[ \t]*){2,}|(?:[ \t]*\b[\w-_]+;.*))(?=;?.*)
+
+  parameter-value:
+    name: constant.numeric.mvn
+    match: (/[\da-fA-F]{4}|=\d{1,4}|`\w{2})
+
+  parameter-label:
+    name: variable.parameter.mvn
+    match: (?![><$K+\-*/]\s|JP\s|JZ\s|JN\s|LV\s|LD\s|MM\s|SC\s|RS\s|HM\s|GD\s|PD\s|OS\s)\s+(?!/|=|`)(\b[\w\-_]+\b)(?=\s*$|\s*;)
+
+  delimiter:
+    name: keyword.control.mvn
+    match: ^\s*[&#].*$
+...
