@@ -1,6 +1,8 @@
 # MVN PCS Sublime
 Sublime Syntax Definition for MVN Assembly, used in PCS.
 
+Current version: `0.1.0`
+
 ## Installation
 
 ### Linux / OSX
