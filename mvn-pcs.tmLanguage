@@ -34,7 +34,7 @@
 		<key>expression</key>
 		<dict>
 			<key>name</key>
-			<string>instruction.mvn</string>
+			<string>invalid.illegal.mvn</string>
 			<key>patterns</key>
 			<array>
 				<dict>

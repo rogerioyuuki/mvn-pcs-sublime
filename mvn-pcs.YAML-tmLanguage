@@ -11,7 +11,7 @@ patterns:
 repository:
 
   expression:
-    name: instruction.mvn
+    name: invalid.illegal.mvn
     patterns:
     - include: '#parameter'
     - include: '#label'
