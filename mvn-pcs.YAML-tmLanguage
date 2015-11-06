@@ -1,0 +1,8 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: MVN PCS
+scopeName: source.mvn
+fileTypes: [asm]
+uuid: cafaadf5-a855-4b06-8867-78a387d1b659
+
+patterns:
