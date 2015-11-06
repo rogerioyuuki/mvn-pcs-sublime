@@ -5,6 +5,8 @@ scopeName: source.mvn
 fileTypes: [asm]
 uuid: cafaadf5-a855-4b06-8867-78a387d1b659
 
+# 0.1.0
+
 patterns:
 - include: '#expression'
 

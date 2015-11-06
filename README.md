@@ -1,6 +1,8 @@
 # MVN PCS Sublime
 Sublime Syntax Definition for MVN Assembly, used in PCS.
 
+Current version: `0.1.0`
+
 ## Installation
 
 ### Linux / OSX
@@ -12,7 +14,7 @@ Sublime Syntax Definition for MVN Assembly, used in PCS.
  ` bash -c "$(curl -fsSL https://raw.github.com/rogerioyuuki/mvn-pcs-sublime/master/tools/install.sh)"`
 
 ##### via wget  
-`bash -c "$(wget https://raw.github.com//rogerioyuuki/mvn-pcs-sublime/master/tools/install.sh -O -)"`
+`bash -c "$(wget https://raw.github.com/rogerioyuuki/mvn-pcs-sublime/master/tools/install.sh -O -)"`
 
 
 #### Manual
