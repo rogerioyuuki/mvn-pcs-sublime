@@ -20,16 +20,87 @@
 		<key>comment</key>
 		<dict>
 			<key>match</key>
-			<string>(;).*$\n?</string>
+			<string>(?&lt;=^|[ \t])(;).*$\n?</string>
 			<key>name</key>
 			<string>comment.mvn</string>
 		</dict>
 		<key>delimiter</key>
 		<dict>
-			<key>match</key>
-			<string>^\s*[&amp;#].*$</string>
 			<key>name</key>
-			<string>keyword.control.mvn</string>
+			<string>delimiter.mvn</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#delimiter-value</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#delimiter-label</string>
+				</dict>
+			</array>
+		</dict>
+		<key>delimiter-label</key>
+		<dict>
+			<key>begin</key>
+			<string>^\s*([#])[ \t]</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.mvn</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>$</string>
+			<key>name</key>
+			<string>delimiter.label.mvn</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;=#[ \t])\s*(?![&gt;&lt;$K+\-*/]\s|JP\s|JZ\s|JN\s|LV\s|LD\s|MM\s|SC\s|RS\s|HM\s|GD\s|PD\s|OS\s)(\b[\w\-_]+\b)</string>
+					<key>name</key>
+					<string>variable.parameter.mvn</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>[^ \t]</string>
+					<key>name</key>
+					<string>invalid.illegal.mvn</string>
+				</dict>
+			</array>
+		</dict>
+		<key>delimiter-value</key>
+		<dict>
+			<key>begin</key>
+			<string>^\s*([@&amp;])[ \t]</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.mvn</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>$</string>
+			<key>name</key>
+			<string>delimiter.value.mvn</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#parameter-value</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>[^ \t]</string>
+					<key>name</key>
+					<string>invalid.illegal.mvn</string>
+				</dict>
+			</array>
 		</dict>
 		<key>expression</key>
 		<dict>
@@ -39,15 +110,11 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#parameter</string>
+					<string>#labeled-instruction</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#label</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#operation</string>
+					<string>#instruction</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -59,46 +126,39 @@
 				</dict>
 			</array>
 		</dict>
-		<key>invalid-parameter</key>
+		<key>instruction</key>
 		<dict>
+			<key>begin</key>
+			<string>(?:^|\s)([&gt;&lt;$K+\-*/]|JP|JZ|JN|LV|LD|MM|SC|RS|HM|GD|PD|OS)(?=\s|$)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.mvn</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>$</string>
 			<key>name</key>
-			<string>invalid.illegal.mvn</string>
+			<string>instruction.mvn</string>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#invalid-parameter-value</string>
+					<string>#parameter</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#invalid-parameter-label</string>
+					<string>#comment</string>
 				</dict>
 				<dict>
-					<key>include</key>
-					<string>#invalid-parameter-number</string>
+					<key>match</key>
+					<string>[^ \t]</string>
+					<key>name</key>
+					<string>invalid.illegal.mvn</string>
 				</dict>
 			</array>
-		</dict>
-		<key>invalid-parameter-label</key>
-		<dict>
-			<key>match</key>
-			<string>(?&lt;=\s)(?&lt;=[&gt;&lt;$K+\-*/]\s|JP\s|JZ\s|JN\s|LV\s|LD\s|MM\s|SC\s|RS\s|HM\s|GD\s|PD\s|OS\s)\s*([&gt;&lt;$K+\-*/]|JP|JZ|JN|LV|LD|MM|SC|RS|HM|GD|PD|OS)(?=\s)</string>
-			<key>name</key>
-			<string>invalid.illegal.mvn</string>
-		</dict>
-		<key>invalid-parameter-number</key>
-		<dict>
-			<key>match</key>
-			<string>(?&lt;=\s)(?&lt;=[&gt;&lt;$K+\-*/]\s|JP\s|JZ\s|JN\s|LV\s|LD\s|MM\s|SC\s|RS\s|HM\s|GD\s|PD\s|OS\s)(?:(?:[ \t]*\b[\w-_]+\b[ \t]*){2,}|(?:[ \t]*\b[\w-_]+;.*))(?=;?.*)</string>
-			<key>name</key>
-			<string>invalid.illegal.mvn</string>
-		</dict>
-		<key>invalid-parameter-value</key>
-		<dict>
-			<key>match</key>
-			<string>[^\s;]+(/[^\da-fA-F]+|/[\da-fA-F]{5,}|=[^\d]+|=\d{5,}|`\w{3,})\S*</string>
-			<key>name</key>
-			<string>invalid.illegal.mvn</string>
 		</dict>
 		<key>label</key>
 		<dict>
@@ -116,7 +176,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.tag</string>
+					<string>entity.name.tag.mvn</string>
 				</dict>
 			</dict>
 			<key>end</key>
@@ -127,24 +187,15 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string></string>
+					<string>#instruction</string>
 				</dict>
 				<dict>
-					<key>include</key>
-					<string>#parameter</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#comment</string>
+					<key>match</key>
+					<string>[^ \t]</string>
+					<key>name</key>
+					<string>invalid.illegal.mvn</string>
 				</dict>
 			</array>
-		</dict>
-		<key>operation</key>
-		<dict>
-			<key>match</key>
-			<string>\s*([&gt;&lt;$K+\-*/]|JP|JZ|JN|LV|LD|MM|SC|RS|HM|GD|PD|OS)(?=\s)</string>
-			<key>name</key>
-			<string>entity.name.function.mvn</string>
 		</dict>
 		<key>parameter</key>
 		<dict>
@@ -152,10 +203,6 @@
 			<string>parameter.mvn</string>
 			<key>patterns</key>
 			<array>
-				<dict>
-					<key>include</key>
-					<string>#invalid-parameter</string>
-				</dict>
 				<dict>
 					<key>include</key>
 					<string>#parameter-value</string>
@@ -169,14 +216,14 @@
 		<key>parameter-label</key>
 		<dict>
 			<key>match</key>
-			<string>(?![&gt;&lt;$K+\-*/]\s|JP\s|JZ\s|JN\s|LV\s|LD\s|MM\s|SC\s|RS\s|HM\s|GD\s|PD\s|OS\s)\s+(?!/|=|`)(\b[\w\-_]+\b)(?=\s*$|\s*;)</string>
+			<string>(?&lt;=[&gt;&lt;$K+\-*/]|JP|JZ|JN|LV|LD|MM|SC|RS|HM|GD|PD|OS)\s+(?![&gt;&lt;$K+\-*/]\s|JP\s|JZ\s|JN\s|LV\s|LD\s|MM\s|SC\s|RS\s|HM\s|GD\s|PD\s|OS\s)(\b[\w\-_]+\b)</string>
 			<key>name</key>
 			<string>variable.parameter.mvn</string>
 		</dict>
 		<key>parameter-value</key>
 		<dict>
 			<key>match</key>
-			<string>(/[\da-fA-F]{4}|=\d{1,4}|`\w{2})</string>
+			<string>(/[\da-fA-F]{1,4}|=\d{1,5}|`\w{1,2}|#[01]{1,16})</string>
 			<key>name</key>
 			<string>constant.numeric.mvn</string>
 		</dict>
