@@ -30,8 +30,10 @@ main() {
   # Detect OS:
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
     SUBLIME=$SUBLIME_LINUX
+    printf "${BOLD}Linux detected${NORMAL}\n\n"
   elif [[ "$OSTYPE" == "darwin"* ]]; then
     SUBLIME=$SUBLIME_OSX
+    printf "${BOLD}OSX detected.${NORMAL}\n"
   elif [[ "$OSTYPE" == "cygwin" ]]; then
     echo "${RED}To install on Windows, refer to the README.${NORMAL}\n"
     exit 1
