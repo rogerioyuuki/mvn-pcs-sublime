@@ -1,4 +1,4 @@
-# [PackageDev] target_format: plist, ext: tmLanguage
+# [PackageDev] target_format: plist, ext: tmLanguage tmPreferences
 ---
 name: MVN PCS
 scopeName: source.mvn
